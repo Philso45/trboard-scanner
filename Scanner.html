@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Scanner TRBOARD</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      margin: 0; 
+      background: #f7f7f7;
+    }
+    video { 
+      width: 100%; 
+      max-width: 400px; 
+      border-radius: 12px; 
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    #result { 
+      margin-top: 20px; 
+      font-size: 18px; 
+      font-weight: bold;
+      color: #2c7a7b;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      background: #2c7a7b;
+      color: white;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+  <script type="module">
+    import('@zxing/browser').then(zxing => {
+      const codeReader = new zxing.BrowserBarcodeReader();
+      const videoElement = document.getElementById('video');
+
+      codeReader.decodeFromVideoDevice(null, 'video', (result, err) => {
+        if (result) {
+          document.getElementById('result').textContent = "✅ Code détecté : " + result.getText();
+          // ➝ Tu peux ici envoyer le code détecté vers Glide via un webhook Make / Airtable API
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <h2>📷 Scanner un Ticket - TRBOARD</h2>
+  <video id="video"></video>
+  <div id="result">En attente d'un scan...</div>
+</body>
+</html>
